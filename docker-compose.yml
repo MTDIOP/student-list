@@ -1,0 +1,26 @@
+version: '3.9'
+services:
+  apipozos:
+    container_name: apipozos1
+    ports:
+        - 5000:5000
+    image: apipozos:v1
+    networks:
+    - mynet
+  apache:
+    image: php:apache
+    container_name: my-app-website
+    depends_on:
+      - apipozos
+    environment:
+      - USERNAME=toto
+      - PASSWORD=python
+    ports:
+    - '80:80'
+    volumes:
+    - ./website:/var/www/html
+    networks:
+    - mynet
+networks:
+  mynet:
+    driver: bridge
